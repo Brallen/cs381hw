@@ -37,7 +37,9 @@ four = Succ three
 --   >>> pred three
 --   Succ (Succ Zero)
 --   
-pred = undefined
+pred :: Nat -> Nat
+pred Zero = Zero
+pred (Succ x) = x
 
 
 -- | True if the given value is zero.
@@ -48,7 +50,9 @@ pred = undefined
 --   >>> isZero two
 --   False
 --
-isZero = undefined
+isZero :: Nat -> Bool
+isZero Zero = True
+isZero _ = False
 
 
 -- | Convert a natural number to an integer.
@@ -59,7 +63,7 @@ isZero = undefined
 --   >>> toInt three
 --   3
 --
-toInt = undefined
+------toInt :: Nat -> Int
 
 
 -- | Add two natural numbers.
@@ -76,7 +80,7 @@ toInt = undefined
 --   >>> add two three == add three two
 --   True
 --   
-add = undefined
+------add :: Nat -> Nat -> Nat
 
 
 -- | Subtract the second natural number from the first. Return zero
@@ -94,7 +98,7 @@ add = undefined
 --   >>> sub one three
 --   Zero
 --
-sub = undefined
+------sub :: Nat -> Nat -> Nat
 
 
 -- | Is the left value greater than the right?
@@ -108,7 +112,7 @@ sub = undefined
 --   >>> gt two two
 --   False
 --
-gt = undefined
+------gt :: Nat -> Nat -> Bool
 
 
 -- | Multiply two natural numbers.
@@ -125,7 +129,7 @@ gt = undefined
 --   >>> toInt (mult three three)
 --   9
 --
-mult = undefined
+-------mult :: Nat -> Nat -> Nat
 
 
 -- | Compute the sum of a list of natural numbers.
@@ -139,7 +143,7 @@ mult = undefined
 --   >>> toInt (sum [one,two,three])
 --   6
 --
-sum = undefined
+-----sum :: [Nat] -> Nat 
 
 
 -- | An infinite list of all of the *odd* natural numbers, in order.
@@ -150,4 +154,4 @@ sum = undefined
 --   >>> toInt (sum (take 100 odds))
 --   10000
 --
-odds = undefined
+------odds = undefined
