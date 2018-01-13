@@ -90,6 +90,10 @@ half = avg 0.0
 data Result = OK Int | Error
   deriving (Eq,Show)
 
+-- instance Show Result where
+--   show (OK i) = show i ++ " :-)"
+--   show Error  = ":-("
+
 -- | Safely divide two integers.
 safeDiv :: Int -> Int -> Result
 safeDiv _ 0 = Error
@@ -110,15 +114,21 @@ addResults _      _      = Error
 --                      (OK x, OK y) -> OK (x + y)
 --                      _ -> Error
 
--- | Get the integer from an OK result, or return 0 on an error.
+-- | Get the integer from an OK result, or return 0 on an Error.
 fromResult :: Result -> Int
-fromResult = undefined
+fromResult (OK i) = i
+fromResult Error  = 0
 
 
 
 -- The definition of Bool in the Haskell Prelude looks like this:
 --   
 --   data Bool = False | True
+
+
+-- Similar to Result from Prelude:
+--
+--   data Maybe a = Just a | Nothing
 
 
 
@@ -136,16 +146,32 @@ data List = Nil
 
 -- | Compute the length of a list.
 listLength :: List -> Int
-listLength = undefined
+listLength Nil        = 0
+listLength (Cons _ t) = 1 + listLength t
 
 -- | Compute the sum of the integers in a list.
 listSum :: List -> Int
-listSum = undefined
+listSum Nil        = 0
+listSum (Cons h t) = h + listSum t
+
+
+-- Lists that contain elements of any type (but they all must be the same):
+--
+--    data List a = Nil
+--                | Cons a (List a)
+--
+--    listLength :: List a -> Int
+--    listSum    :: List Int -> Int
+--    listSum'   :: Num a => List a -> a
+
 
 -- Example evaluation:
 --
 -- listSum (Cons 3 (Cons 4 Nil))
--- => ...
+-- => 3 + listSum (Cons 4 Nil)
+-- => 3 + (4 + listSum Nil)
+-- => 3 + (4 + 0)
+-- =>* 7
 
 
 -------------------
@@ -166,24 +192,29 @@ listSum = undefined
 
 -- | Compute the length of a list.
 length :: [a] -> Int
-length = undefined
+length []    = 0
+length (_:t) = 1 + length t
 
 -- | Compute the sum of an integer list.
 sum :: [Int] -> Int
-sum = undefined
+sum []    = 0
+sum (h:t) = h + sum t
 
 -- | Compute the product of the elements in a list.
 product :: [Int] -> Int
-product = undefined
+product []    = 1
+product (h:t) = h * product t
 
 
 -- | Double all the elements in an integer list.
 doubleAll :: [Int] -> [Int]
-doubleAll = undefined
+doubleAll []    = []
+doubleAll (h:t) = (2 * h) : doubleAll t
 
 -- | Flip all of the boolean values in a boolean list.
 notAll :: [Bool] -> [Bool]
-notAll = undefined
+notAll []    = []
+notAll (h:t) = not h : notAll t
 
 
 ----------------------------
@@ -195,15 +226,18 @@ notAll = undefined
 
 -- | Map a function over the elements in a list.
 map :: (a -> b) -> [a] -> [b]
-map = undefined
+map f []    = []
+map f (h:t) = f h : map f t
 
 -- | Reimplement doubleAll using map.
 doubleAll' :: [Int] -> [Int]
-doubleAll' = undefined
+doubleAll' = map (2 *)
+-- doubleAll' = map (\i -> 2 * i)
 
 -- | Reimplement notAll using map.
 notAll' :: [Bool] -> [Bool]
-notAll' = undefined
+notAll' = map not
+-- notAll' bs = map not bs
 
 -- | Fold a function over the elements of a list.
 simpleFold :: (a -> a -> a) -> a -> [a] -> a
