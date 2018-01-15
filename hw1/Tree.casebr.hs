@@ -56,7 +56,9 @@ leftmost (Node _ l _) = leftmost l
 --   >>> rightmost t2
 --   9
 --
-rightmost = undefined
+rightmost :: Tree -> Int
+rightmost (Leaf i) = i
+rightmost (Node _ _ r) = rightmost r
 
 
 -- | Get the maximum integer from a binary tree.
@@ -76,7 +78,9 @@ rightmost = undefined
 --   >>> maxInt t2
 --   9
 --
-maxInt = undefined
+maxInt :: Tree -> Int
+maxInt (Leaf i) = i
+maxInt (Node x l r) = max x (max (maxInt l) (maxInt r))
 
 
 -- | Get the minimum integer from a binary tree.
@@ -96,7 +100,9 @@ maxInt = undefined
 --   >>> minInt t2
 --   1
 --
-minInt = undefined
+minInt :: Tree -> Int
+minInt (Leaf i) = i
+minInt (Node x l r) = min x (min (minInt l) (minInt r))
 
 
 -- | Get the sum of the integers in a binary tree.
