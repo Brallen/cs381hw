@@ -82,7 +82,8 @@ toInt (Succ x) = 1 + toInt x
 --   True
 --   
 add :: Nat -> Nat -> Nat
-
+add Zero x = x
+add (Succ x) y = add x (Succ y)
 
 -- | Subtract the second natural number from the first. Return zero
 --   if the second number is bigger.
@@ -99,8 +100,10 @@ add :: Nat -> Nat -> Nat
 --   >>> sub one three
 --   Zero
 --
-------sub :: Nat -> Nat -> Nat
-
+sub :: Nat -> Nat -> Nat
+sub x Zero = x
+sub Zero x = Zero
+sub (Succ x) (Succ y) = sub x y
 
 -- | Is the left value greater than the right?
 --
@@ -113,8 +116,10 @@ add :: Nat -> Nat -> Nat
 --   >>> gt two two
 --   False
 --
-------gt :: Nat -> Nat -> Bool
-
+gt :: Nat -> Nat -> Bool
+gt Zero x = False
+gt x Zero = True
+gt (Succ x) (Succ y) = gt x y
 
 -- | Multiply two natural numbers.
 --
@@ -130,8 +135,10 @@ add :: Nat -> Nat -> Nat
 --   >>> toInt (mult three three)
 --   9
 --
--------mult :: Nat -> Nat -> Nat
-
+mult :: Nat -> Nat -> Nat
+mult Zero _ = Zero
+mult _ Zero = Zero
+mult (Succ x) y = add (mult x y) y
 
 -- | Compute the sum of a list of natural numbers.
 --
@@ -144,8 +151,8 @@ add :: Nat -> Nat -> Nat
 --   >>> toInt (sum [one,two,three])
 --   6
 --
------sum :: [Nat] -> Nat 
-
+sum :: [Nat] -> Nat 
+sum x = foldr add Zero x
 
 -- | An infinite list of all of the *odd* natural numbers, in order.
 --
@@ -155,4 +162,5 @@ add :: Nat -> Nat -> Nat
 --   >>> toInt (sum (take 100 odds))
 --   10000
 --
-------odds = undefined
+odds = one : map (add two) odds 
+
