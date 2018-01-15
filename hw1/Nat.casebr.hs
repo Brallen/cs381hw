@@ -63,8 +63,9 @@ isZero _ = False
 --   >>> toInt three
 --   3
 --
-------toInt :: Nat -> Int
-
+toInt :: Nat -> Int
+toInt Zero = 0 
+toInt (Succ x) = 1 + toInt x
 
 -- | Add two natural numbers.
 --
@@ -80,7 +81,7 @@ isZero _ = False
 --   >>> add two three == add three two
 --   True
 --   
-------add :: Nat -> Nat -> Nat
+add :: Nat -> Nat -> Nat
 
 
 -- | Subtract the second natural number from the first. Return zero
