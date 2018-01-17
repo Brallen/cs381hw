@@ -119,7 +119,9 @@ minInt (Node x l r) = min x (min (minInt l) (minInt r))
 --   >>> sumInts (Node 10 t1 t2)
 --   100
 --
-sumInts = undefined
+sumInts :: Tree -> Int
+sumInts (Leaf x) = x
+sumInts (Node x l r) = x + (sumInts l) + (sumInts r)
 
 
 -- | The list of integers encountered by a pre-order traversal of the tree.
@@ -136,7 +138,9 @@ sumInts = undefined
 --   >>> preorder t2
 --   [6,2,1,4,3,5,8,7,9]
 --   
-preorder = undefined
+preorder :: Tree -> [Int]
+preorder (Leaf x) = [x]
+preorder (Node x l r) = x : (preorder l) ++ (preorder r)
 
 
 -- | The list of integers encountered by an in-order traversal of the tree.
@@ -153,7 +157,9 @@ preorder = undefined
 --   >>> inorder t2
 --   [1,2,3,4,5,6,7,8,9]
 --   
-inorder = undefined
+inorder :: Tree -> [Int]
+inorder (Leaf x) = [x]
+inorder (Node x l r) = (inorder l) ++ [x] ++ (inorder r)
 
 
 -- | Check whether a binary tree is a binary search tree.
@@ -170,8 +176,14 @@ inorder = undefined
 --   >>> isBST t2
 --   True
 --   
-isBST = undefined
+isBST :: Tree -> Bool
+isBST (Leaf x) = True
+isBST x = isSorted(inorder x)
 
+isSorted :: [Int] -> Bool
+isSorted [] = True
+isSorted [x] = True
+isSorted (x:y:xs) = x <= y && isSorted(y:xs)
 
 -- | Check whether a number is contained in a binary search tree.
 --   (You may assume that the given tree is a binary search tree.)
@@ -188,4 +200,8 @@ isBST = undefined
 --   >>> inBST 10 t2
 --   False
 --   
-inBST = undefined
+inBST :: Int -> Tree -> Bool
+inBST a (Leaf x) = a == x
+inBST a (Node x l r)
+       | a == x = True
+       | otherwise = inBST a l || inBST a r
