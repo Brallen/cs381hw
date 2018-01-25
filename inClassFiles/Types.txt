@@ -1,0 +1,91 @@
+Given:
+
+  data Maybe a = Nothing | Just a
+
+  gt   :: Int -> Int -> Bool   -- Int -> (Int -> Bool)
+  not  :: Bool -> Bool
+  even :: Int -> Bool
+  map  :: (a -> b) -> [a] -> [b]
+  (.)  :: (b -> c) -> (a -> b) -> a -> c
+
+
+
+What are the types of the following expressions?
+ 
+ * Just :: a -> Maybe a
+
+
+ * not even 3   -- (not even) 3
+   not even :: ??
+     Targ = Bool, Tres = Bool
+     Bool =? Int -> Bool  -- TYPE ERROR!
+
+
+ * not (even 3)
+   even 3 :: Bool
+     Targ = Int, Tres = Bool
+     Int =? Int
+   not (even 3) :: ** Bool **
+     Targ = Bool, Tres Bool
+     Bool =? Bool
+
+ * gt 3 :: ** Int -> Bool **
+     Targ = Int, Tres = Int -> Bool
+     Int =? Int
+
+
+ * map 3
+     Targ = a -> b, Tres = [a] -> [b]
+     a -> b =? Int  -- TYPE ERROR!
+
+
+ * map even :: [Int] -> [Bool]
+     Targ = a -> b, Tres = [a] -> [b]
+     a -> b =? Int -> Bool
+     { a = Int, b = Bool }
+     
+ 
+ * not . even
+   = (.) not even  -- ((.) not) even
+     (.) not :: (a -> Bool) -> a -> Bool
+     Targ = b -> c, Tres = (a -> b) -> a -> c
+     b -> c =? Bool -> Bool
+     { b = Bool, c = Bool }
+   ((.) not) even :: ** Int -> Bool **
+     Targ = a -> Bool, Tres = a -> Bool
+     a -> Bool =? Int -> Bool
+     { a = Int }
+
+   -- shortcut way
+   not . even    -- f . g
+   Bool =? Bool  -- gout =? fin 
+   Int -> Bool   -- gin -> fout
+
+
+
+ * even . not  -- f . g
+   Bool =? Int -- gout =? fin  -- TYPE ERROR!
+               -- gin -> fout
+
+
+ * map (Just . even)
+   = map (((.) Just) even)
+     (.) Just :: (a -> d) -> a -> Maybe d
+       Targ = b -> c, Tres = (a -> b) -> a -> c
+       b -> c =? d -> Maybe d
+       { b = d, c = Maybe d }
+     ((.) Just) even) :: Int -> Maybe Bool
+       Targ = a -> d, Tres = a -> Maybe d
+       a -> d =? Int -> Bool
+       { a = Int, d = Bool }
+     map (((.) Just) even) :: ** [Int] -> [Maybe Bool] **
+       Targ = a -> b, Tres = [a] -> [b]
+       a -> b =? Int -> Maybe Bool
+       { a = Int, b = Maybe Bool }
+
+
+   -- shortcut for arguement to map
+   Just . even   -- f . g
+   Bool =? a     -- gout =? fin
+     { a = Bool }
+   Int -> Maybe Bool  -- gin -> fout
