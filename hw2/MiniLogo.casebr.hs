@@ -81,8 +81,8 @@ prettyPen x = (show x)
 
 pretty :: Prog -> String
 pretty [] = ""
-pretty ((Pen x):cmds) = "pen " ++ (prettyPen x) ++ ";" ++ (pretty cmds)
-pretty ((Move (x, y)):cmds) = "move" ++ "(" ++ (prettyHelper x) ++ "," ++ (prettyHelper y) ++ ");" ++ (pretty cmds)
-pretty (Define n v p:cmds) = "fill me in" ++ (pretty cmds)--n ++ "(" ++ (intercalate "," v) ++ ")" 
-pretty ((Call m e):cmds) = "fill me in 2" ++ (pretty cmds)--m ++ (prettyHelper e) ++ ";"
+pretty ((Pen x):cmds) = "pen " ++ (prettyPen x) ++ ";\n" ++ (pretty cmds)
+pretty ((Move (x, y)):cmds) = "move" ++ "(" ++ (prettyHelper x) ++ "," ++ (prettyHelper y) ++ ");\n" ++ (pretty cmds)
+pretty (Define n v p:cmds) = "define " ++ n ++ " (" ++ intercalate "," v ++"){\n"++ (pretty p) ++"}\n" ++ (pretty cmds) 
+pretty ((Call m e):cmds) = "call " ++ m ++ " (" ++ intercalate ", " (map prettyHelper e) ++ ")\n" ++ (pretty cmds)
 
