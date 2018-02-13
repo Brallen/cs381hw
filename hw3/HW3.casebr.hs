@@ -67,7 +67,7 @@ prog :: Prog -> State -> (State, [Line])
 prog [] s = (s, [])
 prog (c:cs) s = case cmd c s of
         (i, Nothing) -> prog cs i 
-        (i, Just m) -> (\(s, cs) -> (s, m:cs)) (prog cs i)
+        (i, Just m) -> (\(s, cd) -> (s, m:cd)) (prog cs i)
 
 --
 -- * Extra credit
