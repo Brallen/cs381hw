@@ -1,3 +1,5 @@
+% Brett Case (casebr)
+% Noah Berks (berksn)
 % Here are a bunch of facts describing the Simpson's family tree.
 % Don't change them!
 
