@@ -1,5 +1,5 @@
-% Brett Case (casebr)
-% Noah Berks (berksn)
+% Brett Case - casebr
+% Noah Berks - berksn
 % Here are a bunch of facts describing the Simpson's family tree.
 % Don't change them!
 
@@ -52,23 +52,25 @@ parent(selma,ling).
 %%
 
 % 1. Define a predicate `child/2` that inverts the parent relationship.
-
+child(X,Y) :- parent(Y,X).
 
 % 2. Define two predicates `isMother/1` and `isFather/1`.
-
+isMother(X) :- female(X), parent(X, _).
+isFather(x) :- male(X), parent(X, _).
 
 % 3. Define a predicate `grandparent/2`.
-
+grandparent(X,Y) :- parent(X,Z), parent(Z,Y).
 
 % 4. Define a predicate `sibling/2`. Siblings share at least one parent.
-
+sibling(X,Y) :- parent(Z,X), parent(Z,Y), X\=Y.
 
 % 5. Define two predicates `brother/2` and `sister/2`.
-
+brother(X,Y) :- male(X), sibling(X,Y).
+sister(X,Y) :- female(X), sibling(X,Y).
 
 % 6. Define a predicate `siblingInLaw/2`. A sibling-in-law is either married to
 %    a sibling or the sibling of a spouse.
-
+siblingInLaw(X,Y) :- sibling(X,Z), married(Z,Y)
 
 % 7. Define two predicates `aunt/2` and `uncle/2`. Your definitions of these
 %    predicates should include aunts and uncles by marriage.
