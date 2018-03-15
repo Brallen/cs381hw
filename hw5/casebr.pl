@@ -1,5 +1,4 @@
 % Brett Case - casebr
-% Noah Berks - berksn
 % Here are a bunch of facts describing the Simpson's family tree.
 % Don't change them!
 
@@ -70,14 +69,17 @@ sister(X,Y) :- female(X), sibling(X,Y).
 
 % 6. Define a predicate `siblingInLaw/2`. A sibling-in-law is either married to
 %    a sibling or the sibling of a spouse.
-siblingInLaw(X,Y) :- sibling(X,Z), married(Z,Y)
+siblingInLaw(X,Y) :- sibling(X,Z), married(Z,Y).
 
 % 7. Define two predicates `aunt/2` and `uncle/2`. Your definitions of these
 %    predicates should include aunts and uncles by marriage.
+aunt(X,Y) :- female(X), sibling(X,Z), parent(Z,Y).
+aunt(X,Y) :- female(X), siblingInLaw(X,W), parent(W,Y).
+uncle(X,Y) :- male(X), sibling(X,Z), parent(Z,Y).
+uncle(X,Y) :- male(X), siblingInLaw(X,W), parent(W,Y).
 
-
-% 8. Define the predicate `cousin/2`.
-
+% 8. Definethe predicate `cousin/2`.
+cousin(X,Y)
 
 % 9. Define the predicate `ancestor/2`.
 
@@ -96,5 +98,4 @@ siblingInLaw(X,Y) :- sibling(X,Z), married(Z,Y)
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
-
 
