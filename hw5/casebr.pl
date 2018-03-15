@@ -79,14 +79,27 @@ uncle(X,Y) :- male(X), sibling(X,Z), parent(Z,Y).
 uncle(X,Y) :- male(X), siblingInLaw(X,W), parent(W,Y).
 
 % 8. Definethe predicate `cousin/2`.
-cousin(X,Y)
+cousin(X,Y) :- parent(Z,X), sibling(Z,W), child(Y,W).
 
 % 9. Define the predicate `ancestor/2`.
-
+ancestor(X,Y) :- parent(X,Y).
+ancestor(X,Y) :- parent(X,Z), ancestor(Z,Y).
 
 % Extra credit: Define the predicate `related/2`.
+% This currently only traces down half the tree
+related_(X,Y) :- ancestor(X,Y).
+related_(X,Y) :- ancestor(Y,X).
+related_(X,Y) :- cousin(X,Y).
+related_(X,Y) :- aunt(X,Y).
+related_(X,Y) :- aunt(Y,X).
+related_(X,Y) :- uncle(X,Y).
+related_(X,Y) :- uncle(Y,X).
+related_(X,Y) :- sibling(X,Y).
+related_(X,Y) :- siblingInLaw(X,Y).
+related_(X,Y) :- married(X,Y).
 
-
+related(X,Y) :- related_(X,Y).
+related(X,Y) :- related_(Y,X).
 
 %%
 % Part 2. Language implementation
@@ -94,8 +107,13 @@ cousin(X,Y)
 
 % 1. Define the predicate `cmd/3`, which describes the effect of executing a
 %    command on the stack.
-
+cmd(add, [First,Second|Rest],S2) :- Res is (First+Second), S2 = [Res|Rest].
+cmd(lte, [First,Second|Rest],S2) :- Cal = (First =< Second -> Res=t; Res=f), call(Cal), S2=[Res|Rest].
+cmd(if(ForTrue,_), [t|Rest], S2) :- prog(ForTrue, Rest, S2).
+cmd(if(_,ForFalse), [f|Rest], S2) :- prog(ForFalse, Rest, S2).
+cmd(Arg,S1,S2) :- S2 = [Arg|S1].
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
-
+prog([],S1,S2) :- S2 = S1.
+prog([First|Rest], S1, S2) :- cmd(First, S1, DifS), prog(Rest, DifS, S2).
