@@ -55,7 +55,7 @@ child(X,Y) :- parent(Y,X).
 
 % 2. Define two predicates `isMother/1` and `isFather/1`.
 isMother(X) :- female(X), parent(X, _).
-isFather(x) :- male(X), parent(X, _).
+isFather(X) :- male(X), parent(X, _).
 
 % 3. Define a predicate `grandparent/2`.
 grandparent(X,Y) :- parent(X,Z), parent(Z,Y).
@@ -69,14 +69,15 @@ sister(X,Y) :- female(X), sibling(X,Y).
 
 % 6. Define a predicate `siblingInLaw/2`. A sibling-in-law is either married to
 %    a sibling or the sibling of a spouse.
-siblingInLaw(X,Y) :- sibling(X,Z), married(Z,Y).
+siblingInLaw(X,Y) :- married(X,Z), sibling(Z,Y).
+siblingInLaw(X,Y) :- married(Y,Z), sibling(Z,X).
 
 % 7. Define two predicates `aunt/2` and `uncle/2`. Your definitions of these
 %    predicates should include aunts and uncles by marriage.
 aunt(X,Y) :- female(X), sibling(X,Z), parent(Z,Y).
 aunt(X,Y) :- female(X), siblingInLaw(X,W), parent(W,Y).
 uncle(X,Y) :- male(X), sibling(X,Z), parent(Z,Y).
-uncle(X,Y) :- male(X), siblingInLaw(X,W), parent(W,Y).
+uncle(X,Y) :- male(X), siblingInLaw(X,W), parent(W,Y). 
 
 % 8. Definethe predicate `cousin/2`.
 cousin(X,Y) :- parent(Z,X), sibling(Z,W), child(Y,W).
